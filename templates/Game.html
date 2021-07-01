@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Site</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"> 
+
+</head>
+   
+
+<style>
+body{margin:0;touch-action:manipulation;}
+
+</style>
+<body>
+    <div>
+    <canvas>
+    
+    </canvas>
+        
+    </div>
+</body>
+</html>
+<script >
+var name=prompt("Please enter your name");
+var score=0;
+
+var canvas= document.querySelector("canvas");
+canvas.width= window.innerWidth;
+canvas.height= window.innerHeight;
+iw=window.innerWidth;
+ih=window.innerHeight;
+c= canvas.getContext("2d");
+
+mouse={x:undefined,y:undefined};
+colors=["#F3FEB0","#FEA443", "#705E78","#A5AAA3","#812F33"];
+
+
+canvas.addEventListener("touchmove",function(e){
+  
+  e.preventDefault();
+  mouse.x=e.touches["0"].clientX;
+  mouse.y=e.touches["0"].clientY;
+  
+  
+  
+  
+}
+);
+
+canvas.addEventListener("click",function(e){
+  
+  e.preventDefault();
+  mouse.x=e.x;
+  mouse.y=e.y;
+  
+  
+  
+  
+}
+);
+canvas.addEventListener("mousemove",function(e){
+  
+  e.preventDefault();
+  mouse.x=e.x;
+  mouse.y=e.y;
+  
+  
+  
+  
+}
+);
+
+function decimal(start,end){
+  m=Math.random()
+  return m*end+start-m*start
+};
+
+function range(start,end){
+  m=Math.random()
+  return Math.round(m*end+start-m*start)
+};
+
+function distance(x,x1,y,y1){
+  return Math.sqrt(Math.pow(x-x1,2)+Math.pow(y-y1,2 ));
+};
+
+function selectOne(a,b){
+  ar=[a,b];
+  return ar[Math.round(Math.random())]
+  
+};
+
+var explode_ar=[];
+
+function explode(x,y,r,color){
+  this.x=x;
+  this.y=y;
+  this.r=r;
+  this.color=color;
+  this.velocity={"x":range(-2,1)+.5,"y":range(-2,1)+.5};
+  this.alpha=1;
+  
+  this.update=function(){
+    c.save();
+    this.alpha-=.01;
+    if(this.alpha<0){
+      explode_ar.splice(explode_ar.indexOf(this),1);
+    };
+    c.globalAlpha=this.alpha;
+    c.beginPath();
+    c.arc(this.x,this.y,this.r,0,Math.PI*2);
+    c.fillStyle=this.color;
+    c.fill();
+    c.restore();
+    this.x+=this.velocity.x;
+    this.y+=this.velocity.y;
+    
+    
+  };
+  
+  
+};
+
+function Projectile(x,y,r,angle){
+  this.x=iw/2;
+  this.y=ih/2;
+  this.r=r;
+  this.color="white";
+  this.velocity={"x":x,"y":y};
+  this.angle=angle;
+  
+  this.update=function(){
+    c.beginPath();
+    c.arc(this.x,this.y,this.r,0,Math.PI*2);
+    c.fillStyle=this.color;
+    c.fill();
+    this.x+=Math.cos(this.angle)*5;
+    this.y+=Math.sin(this.angle)*5;
+    for(var i=0; i<circle_ar.length;i++){
+      var a=circle_ar[i]
+      
+      if(distance(this.x,a.x,this.y,a.y)-(this.r+a.r)<=0){
+       
+       if(a.r>20){
+         a.r-=5;
+         score+=10;
+       }else{
+        circle_ar.splice(i,1);
+        score+=10;
+        };
+        for (var i=0 ; i<8;i++){
+          
+        explode_ar.push(new explode(this.x,this.y,range(1,10)*.4,a.color));
+        
+        };
+       
+       
+        
+       p_list.splice(p_list.indexOf(this),1);
+        
+        
+         };
+  }; 
+};
+};
+
+p_list=[];
+addEventListener("click",function(e){
+  x= e.clientX-iw/2;
+  y= e.clientY-ih/2;
+  angle= Math.atan2(y,x);
+  r=10;
+  p_list.push(new Projectile(x,y,r,angle));
+  
+  
+});
+/*
+addEventListener("touchmove",function(e){
+  x= e.touches["0"].clientX-iw/2;
+  y= e.touches["0"].clientY-ih/2;
+  angle= Math.atan2(y,x);
+  r=10;
+  p_list.push(new Projectile(x,y,r,angle));
+  
+  
+});
+*/
+var circle_ar= [];
+
+
+
+
+
+
+function init(){
+
+for(var i=0 ; i< 50;i++){
+var radius=range(10,30);
+var x;
+var y;
+
+  if(Math.random() <.5){
+    x= Math.random() < .5 ? range(-1000,0) : range(iw,iw+1000) ;
+    y=Math.random()*ih;
+  }else{
+    y = Math.random() < .5 ? range(-1000,0) : range(ih,ih+1000);
+    x=Math.random()*iw;
+  };
+circle_ar.push(new Circle(x,y,radius));
+};
+
+};
+
+
+
+
+setInterval(init,25000);
+init();
+
+function Player(x,y,r){
+  this.x=x;
+  this.y=y;
+  this.r=r;
+  this.color="white";
+  
+  this.update=function(){
+    c.beginPath();
+    c.arc(this.x,this.y,this.r,0,Math.PI*2);
+    c.fillStyle=this.color;
+    c.fill();
+    
+    for(var i=0 ; i<circle_ar.length;i++){
+      b=circle_ar[i];
+
+      if(distance(this.x,b.x,this.y,b.y)-(this.r+b.r)<=0){
+       cancelAnimationFrame(anime);
+       alert("Your score : "+score);
+       var myObj = JSON.stringify({ "name": name, "score":score });
+       var xhttp = new XMLHttpRequest();
+       
+  xhttp.open("GET", "/?d="+myObj, true);
+  xhttp.send();
+
+      window.location.reload();
+       };
+     
+        
+        };
+        
+         };
+    };
+  
+
+player = new Player(iw/2,ih/2,30);
+player.update();
+
+
+
+function Circle(x,y,r){
+    this.x=x;
+    this.y=y;
+    this.r=r;
+    this.angle=Math.atan2(this.y-ih/2,this.x-iw/2)
+    
+    if (score<2000){
+   this.velocity_multiplier=decimal(.1,1.2);
+    }else{
+this.velocity_multiplier=decimal(.1,1.5);
+    };
+    this.velocity={"x":Math.cos(this.angle)*this.velocity_multiplier,"y":Math.sin(this.angle)*this.velocity_multiplier};
+    this.color="hsl("+range(1,360)+",100%,60%)";
+    
+    
+    
+    this.update= function(){
+     
+    c.beginPath();
+    c.arc(this.x,this.y,this.r,0,Math.PI*2);
+    c.fillStyle=this.color;
+    c.fill();
+    this.x-=this.velocity.x;
+    this.y-=this.velocity.y;
+   
+      
+    for(var i=0; i<circle_ar.length;i++){
+      var a=circle_ar[i]
+      if(a==this){
+        continue
+      }else if(distance(this.x,a.x,this.y,a.y)-2*this.r<=0){
+        //after colliding
+      };
+    };
+    
+    };
+
+
+    };
+    
+    
+
+
+
+
+
+
+
+var anime;
+function animate(){
+  anime=requestAnimationFrame(animate);
+c.fillStyle="rgba(0,0,0,.1)";
+c.fillRect(0,0,iw,ih);
+for(var j=0;j< circle_ar.length;j++){
+
+circle_ar[j].update();
+
+}
+player.update();
+
+for(var j=0; j< p_list.length; j++){
+  p_list[j].update();
+};
+
+for (var j=0; j< explode_ar.length; j++){
+  
+  /*if(explode_ar[j].alpha<0){
+    explode_ar.splice(j,1);
+  };*/
+  explode_ar[j].update();
+};
+};
+
+animate();
+</script>
