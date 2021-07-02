@@ -26,5 +26,6 @@ def main():
 def index():
 	name="labib hasan"
 	return render_template("labib.html", name2= name)
-app.run(debug=True)
+
+app.run()
 
