@@ -14,7 +14,7 @@ def main():
 	 	
 	 	if type(request.args.get("d")) is str:
 	 		d= json.loads(request.args.get("d"))
-	 		f=open("player_scores.txt","a")
+	 		f=open("./player_scores.txt","a")
 	 		f.write(f"{d['name']} {d['score']}\n")
 	 		
 	 	
