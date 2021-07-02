@@ -36,7 +36,7 @@ def main():
 def index():
 	name=soup.text
 	
-	return name+"hahaha"
+	return name
 
 
 if __name__ == "__main__": 
