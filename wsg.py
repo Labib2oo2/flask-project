@@ -11,12 +11,12 @@ app = Flask(__name__)
 
 @app.route("/")
 def main():
-	 	print("hi")
+	 	
 	 	if type(request.args.get("d")) is str:
 	 		d= json.loads(request.args.get("d"))
 	 		f=open("player_scores.txt","a")
 	 		f.write(f"{d['name']} {d['score']}\n")
-	 		print(d['name'])
+	 		
 	 	
 	 	return render_template("game.html")
 	 
