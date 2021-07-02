@@ -1,6 +1,16 @@
 from flask import Flask, render_template ,request
 from flask import render_template
 import json
+from bs4 import BeautifulSoup as b
+import re
+import requests
+
+url="https://salah.com/"
+
+html= requests.get(url)
+
+soup= b(html.text,'html.parser')
+soup.prettify()
 app = Flask(__name__)
 
 	
@@ -24,8 +34,10 @@ def main():
 
 @app.route("/index")
 def index():
-	name="labib hasan"
-	return render_template("labib.html", name2= name)
+	name=soup.text
+	
+	return name
+
 
 if __name__ == "__main__": 
 
