@@ -27,5 +27,7 @@ def index():
 	name="labib hasan"
 	return render_template("labib.html", name2= name)
 
-app.run()
+if __name__ == "__main__": 
+
+        app.run() 
 
