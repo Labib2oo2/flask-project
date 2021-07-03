@@ -5,30 +5,19 @@ from bs4 import BeautifulSoup as b
 import re
 import requests
 
-url="https://salah.com/"
-url2="https://dateandtime.info/citysunrisesunset.php?id=1185241"
+url="https://www.islamicfinder.org/world/bangladesh/1185241/dhaka-prayer-times/#google_vignette"
+
 
 html= requests.get(url)
-html2=requests.get(url2)
+
 
 soup= b(html.text,'html.parser')
-soup2=b(html2.text,'html.parser')
 
 soup.prettify()
-soup2.prettify()
 
-j=soup.select("dd,dt")
-j2=soup2.select(".short12hm")
+j=soup.select(".prayername,.prayertime")
 
 li = list(map(lambda x: x.text ,j))
-
-k=[]
-for i in range(len(li)) :
-		 	if i%2!=0:
-		 		k.append((li[i].strip("\n").strip(" ")+"\n"))
-		 	else:
-		 		k.append((li[i].strip("\n").strip(" ")+" "))
-k.insert(8,"Sunset "+j2[1].text.replace(" ","")+"\n")
 
 
 app= Flask(__name__)
@@ -41,7 +30,7 @@ app= Flask(__name__)
 
 @app.route("/")
 def main():
-	 	print("hi")
+	 
 	 	if type(request.args.get("d")) is str:
 	 		d= json.loads(request.args.get("d"))
 	 		f=open("./player_scores.txt","a")
@@ -55,7 +44,7 @@ def main():
 def index():
 	name=soup.text
 	
-	return "".join(k)
+	return " ".join(li)
 
 
 
