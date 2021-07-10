@@ -35,7 +35,7 @@ def main():
 	 		d= json.loads(request.args.get("d"))
 	 		f=open("./player_scores.txt","a")
 	 		f.write(f"{d['name']} {d['score']}\n")
-	 		print(d['name'])
+	 		
 	 	
 	 	return render_template("game.html")
 
@@ -45,7 +45,18 @@ def index():
 	name=soup.text
 	
 	return " ".join(li)
-
+	
+@app.route("/rqst")
+def rqst():
+	link=request.args.get("link")
+	html2=requests.get(link)
+	
+	return html2.text
+	
+@app.route("/news")
+def news():
+	
+	return render_template("todaynews.html")
 
 
 if __name__ == "__main__": 
