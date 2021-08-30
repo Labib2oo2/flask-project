@@ -19,12 +19,6 @@ def js():
 	 	else:
 	 		return render_template("game.html")
 	 
-
-@app.route("/index")
-def index():
-	name="labib hasan"
-	return render_template("labib.html", name2= name)
-
 import pymongo 
 import urllib
 @app.route("/mon")
@@ -33,6 +27,8 @@ def mon():
 	db=client.honululu
 	posts=db.labib
 	posts.insert_one({"name":"labib"})
+	return "mongo db"
+
 
 
 if __name__ == "__main__": 
