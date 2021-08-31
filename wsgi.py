@@ -19,7 +19,11 @@ j=soup.select(".prayername,.prayertime")
 
 li = list(map(lambda x: x.text ,j))
 
-
+import pymongo 
+import urllib
+client = pymongo.MongoClient("mongodb://Labib:"+urllib.parse.quote_plus("949802loveeve:>")+"@test-shard-00-00.y1zlb.mongodb.net:27017,test-shard-00-01.y1zlb.mongodb.net:27017,test-shard-00-02.y1zlb.mongodb.net:27017/test?ssl=true&replicaSet=atlas-a4yw33-shard-0&authSource=admin&retryWrites=true&w=majority")
+db=client.honululu
+posts=db.labib
 app= Flask(__name__)
 
 	
@@ -57,11 +61,7 @@ def rqst():
 def news():
 	
 	return render_template("todaynews.html")
-import pymongo 
-import urllib
-client = pymongo.MongoClient("mongodb://Labib:"+urllib.parse.quote_plus("949802loveeve:>")+"@test-shard-00-00.y1zlb.mongodb.net:27017,test-shard-00-01.y1zlb.mongodb.net:27017,test-shard-00-02.y1zlb.mongodb.net:27017/test?ssl=true&replicaSet=atlas-a4yw33-shard-0&authSource=admin&retryWrites=true&w=majority")
-db=client.honululu
-posts=db.labib
+
 @app.route("/mon")
 def mon():
 	posts.insert_one({"name":"labib"})
