@@ -29,7 +29,7 @@ import os
 is_prod = os.environ.get('IS_HEROKU', None)
 
 if is_prod:
-	client = pymongo.MongoClient(os.environ.get("MONGODB_URI"))
+	client = pymongo.MongoClient(os.environ.get("MONGODB_URI")+urllib.parse.quote_plus("949802loveeve:>")+os.environ.get("MONGODB_URI2"))
 	db=client.honululu
 	posts=db.labib
 else:
