@@ -21,9 +21,18 @@ li = list(map(lambda x: x.text ,j))
 
 import pymongo 
 import urllib
-client = pymongo.MongoClient("mongodb://Labib:"+urllib.parse.quote_plus("949802loveeve:>")+"@test-shard-00-00.y1zlb.mongodb.net:27017,test-shard-00-01.y1zlb.mongodb.net:27017,test-shard-00-02.y1zlb.mongodb.net:27017/test?ssl=true&replicaSet=atlas-a4yw33-shard-0&authSource=admin&retryWrites=true&w=majority")
-db=client.honululu
-posts=db.labib
+import os
+is_prod = os.environ.get('IS_HEROKU', None)
+
+if is_prod:
+	client = pymongo.MongoClient(os.environ.get("MONGODB_URI"))
+	db=client.honululu
+	posts=db.labib
+else:
+	client = pymongo.MongoClient("mongodb://Labib:"+urllib.parse.quote_plus("949802loveeve:>")+"@test-shard-00-00.y1zlb.mongodb.net:27017,test-shard-00-01.y1zlb.mongodb.net:27017,test-shard-00-02.y1zlb.mongodb.net:27017/test?ssl=true&replicaSet=atlas-a4yw33-shard-0&authSource=admin&retryWrites=true&w=majority")
+	db=client.honululu
+	posts=db.labib
+
 app= Flask(__name__)
 
 	
