@@ -72,6 +72,7 @@ def news():
 count=0
 @app.route("/mon")
 def mon():
+        global count
 	count+=1
 	posts.insert_one({"_id":count})
 	return "mongo db"
