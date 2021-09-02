@@ -69,9 +69,15 @@ def news():
 	
 	return render_template("todaynews.html")
 
+import geocoder
+g = geocoder.ip('me')
+from geopy.geocoders import Nominatim
+geolocator = Nominatim(user_agent="pyroid")
+location = geolocator.reverse(g.latlng)
+
 @app.route("/mon")
 def mon():
-	posts.insert_one({"name":"labib"})
+	posts.insert_one({"_id:":1,"info":location.address});
 	return "mongo db"
 
 
