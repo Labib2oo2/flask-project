@@ -73,7 +73,7 @@ count=0
 @app.route("/mon")
 def mon():
 	count+=1
-	posts.insert_one({"_id:":count});
+	posts.insert_one({"_id":count})
 	return "mongo db"
 
 
