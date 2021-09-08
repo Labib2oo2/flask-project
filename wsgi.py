@@ -69,12 +69,10 @@ def news():
 	
 	return render_template("todaynews.html")
 
-count=0
+
 @app.route("/mon")
 def mon():
-	global count
-	count+=1
-	posts.insert_one({"_id":count});
+	posts.insert_one({"name":"labib"});
 	return "mongo db"
 
 
