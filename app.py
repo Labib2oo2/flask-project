@@ -18,6 +18,11 @@ def js():
 	 		return render_template("game.html")
 	 	else:
 	 		return render_template("game.html")
+@app.route("/news")
+def news():
+	
+	return render_template("todaynews.html")
+
 	 
 import pymongo 
 import urllib
