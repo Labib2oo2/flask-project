@@ -18,6 +18,13 @@ def js():
 	 		return render_template("game.html")
 	 	else:
 	 		return render_template("game.html")
+@app.route("/rqst")
+def rqst():
+	link=request.args.get("link")
+	html2=requests.get(link)
+	print(html2.text)
+	return html2.text
+	
 @app.route("/news")
 def news():
 	
